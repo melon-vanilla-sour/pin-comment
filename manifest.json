@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Twitter Sweet",
+  "version": "1.0",
+  "description": "Removes unnecessary elements from Twitter",
+  "content_scripts": [
+    {
+      "matches": ["https://x.com/*"],
+      "css": ["style.css"],
+      "js": ["script.js"]
+    }
+  ]
+}
