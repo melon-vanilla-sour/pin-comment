@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Twitter Sweet",
+  "name": "Pin Comment",
   "version": "1.0",
-  "description": "Removes unnecessary elements from Twitter",
+  "description": "Pin comment to side of video",
   "content_scripts": [
     {
-      "matches": ["https://x.com/*"],
+      "matches": ["https://www.youtube.com/watch*"],
       "css": ["style.css"],
       "js": ["script.js"]
     }
