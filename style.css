@@ -1,0 +1,10 @@
+.pin-button {
+  color: black;
+  font-size: 13px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pin-button {
+    color: white;
+  }
+}

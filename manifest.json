@@ -7,7 +7,8 @@
     {
       "matches": ["https://www.youtube.com/watch*"],
       "css": ["style.css"],
-      "js": ["script.js"]
+      "js": ["script.js"],
+      "run_at": "document_idle"
     }
   ]
 }
