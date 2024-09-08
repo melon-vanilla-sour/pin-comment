@@ -15,10 +15,13 @@ function addPinButtonToComments() {
         event.stopPropagation()
         const rightColumn = document.querySelector('#secondary')
         // parent node includes elements like replies i.e. the full comment
+        comment.parentNode.style.overflowY = 'scroll'
+        const videoPlayerHeight = document.querySelector('#player').getBoundingClientRect().height
+        comment.parentNode.style.height = videoPlayerHeight + 'px'
         rightColumn.prepend(comment.parentNode)
       })
       commentHeader.appendChild(pinButton)
-      console.log('pin comment button added')
+      // console.log('pin comment button added')
     }
   })
 }
@@ -33,7 +36,7 @@ const waitForCommentsSectionLoad = setInterval(() => {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.addedNodes.length > 0) {
-          console.log(mutation + 'new comments loaded')
+          // console.log(mutation + 'new comments loaded')
           addPinButtonToComments()
         }
       })
