@@ -1,4 +1,4 @@
-console.log('pin-comment extension loaded')
+console.log('pin-yt-comment extension loaded')
 
 function addPinButtonToComments() {
   // container for each comment element
@@ -15,12 +15,18 @@ function addPinButtonToComments() {
 
       pinButton.addEventListener('click', (event) => {
         event.stopPropagation()
+
+        pinButton.textContent = 'unpin comment'
+        pinButton.addEventListener('click', (event) => {})
+
         const rightColumn = document.querySelector('#secondary')
         // parent node includes elements like replies i.e. the full comment
-        comment.parentNode.style.overflowY = 'scroll'
+        commentParent = comment.parentNode
+        commentParent.style.overflowY = 'scroll'
         const videoPlayerHeight = document.querySelector('#player').getBoundingClientRect().height
-        comment.parentNode.style.height = videoPlayerHeight + 'px'
-        rightColumn.prepend(comment.parentNode)
+        commentParent.style.height = videoPlayerHeight / 2 + 'px'
+        // commentParent.style.height = commentParent.getBoundingClientRect().height * 1.5 + 'px'
+        rightColumn.prepend(commentParent)
       })
 
       commentHeader.appendChild(pinButton)
