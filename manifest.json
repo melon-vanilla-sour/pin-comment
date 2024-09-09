@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Pin Comment",
+  "name": "Pin YouTube Comment",
   "version": "1.0",
-  "description": "Pin comment to side of video",
+  "description": "Pin a YouTube comment to the right side of the video",
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/watch*"],
