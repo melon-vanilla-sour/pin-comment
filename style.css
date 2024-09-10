@@ -1,11 +1,20 @@
 .pin-button {
-  color: black;
+  color: #606060;
   font-size: 13px;
   cursor: pointer;
+  padding-left: 6px;
+}
+
+.pin-button :hover {
+  color: #0f0f0f;
 }
 
 @media (prefers-color-scheme: dark) {
   .pin-button {
-    color: white;
+    color: #aaaaaa;
+  }
+
+  .pin-button:hover {
+    color: #f1f1f1;
   }
 }

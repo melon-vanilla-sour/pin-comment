@@ -6,7 +6,7 @@ function addPinButtonToComments() {
 
   commentsContainer.forEach((commentContainer) => {
     let comment = commentContainer.querySelector('#comment')
-    let commentHeader = commentContainer.querySelector('#body #main #header')
+    let commentHeader = commentContainer.querySelector('#body #main #header #header-author')
 
     // pin button isn't already added
     if (!commentHeader.querySelector('.pin-button')) {
