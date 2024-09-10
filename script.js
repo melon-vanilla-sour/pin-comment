@@ -8,18 +8,20 @@ function addPinButtonToComments() {
     let comment = commentContainer.querySelector('#comment')
     let commentHeader = commentContainer.querySelector('#body #main #header')
 
+    // pin button isn't already added
     if (!commentHeader.querySelector('.pin-button')) {
       const pinButton = document.createElement('a')
       togglePinText(pinButton)
       pinButton.className = 'pin-button'
+
       let originalParent = null
       // parent node includes elements like replies i.e. the full comment
       let commentParent = comment.parentNode
 
+      // event listener 1
       const onPinComment = (event) => {
+        if (isTheaterMode()) return
         event.stopPropagation()
-
-        const rightColumn = document.querySelector('#secondary')
 
         // store info to restore position when unpinning
         originalParent = commentParent.parentNode
@@ -27,6 +29,8 @@ function addPinButtonToComments() {
         commentParent.style.overflowY = 'scroll'
         const videoPlayerHeight = document.querySelector('#player').getBoundingClientRect().height
         commentParent.style.maxHeight = videoPlayerHeight / 2 + 'px'
+
+        const rightColumn = document.querySelector('#secondary')
         rightColumn.prepend(commentParent)
 
         togglePinText(pinButton)
@@ -35,12 +39,13 @@ function addPinButtonToComments() {
         pinButton.addEventListener('click', onUnpinComment)
       }
 
+      // event listener 2
       const onUnpinComment = (event) => {
+        if (isTheaterMode()) return
         event.stopPropagation()
         // insert back into original position
         originalParent.prepend(commentParent)
 
-        // remove max height
         commentParent.style.maxHeight = null
 
         togglePinText(pinButton)
@@ -81,3 +86,8 @@ const waitForCommentsSectionLoad = setInterval(() => {
     })
   }
 }, 1000)
+
+function isTheaterMode() {
+  const playerContainer = document.querySelector('ytd-watch-flexy')
+  return playerContainer && playerContainer.hasAttribute('theater')
+}
