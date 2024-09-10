@@ -10,28 +10,46 @@ function addPinButtonToComments() {
 
     if (!commentHeader.querySelector('.pin-button')) {
       const pinButton = document.createElement('a')
-      pinButton.textContent = 'pin comment'
+
+      togglePinText(pinButton)
       pinButton.className = 'pin-button'
 
       pinButton.addEventListener('click', (event) => {
         event.stopPropagation()
 
-        pinButton.textContent = 'unpin comment'
-        pinButton.addEventListener('click', (event) => {})
-
         const rightColumn = document.querySelector('#secondary')
         // parent node includes elements like replies i.e. the full comment
         commentParent = comment.parentNode
+
+        // store info to restore position when unpinning
+        const originalParent = commentParent.parentNode
+        const originalSibling = commentParent.nextSibling
+
         commentParent.style.overflowY = 'scroll'
         const videoPlayerHeight = document.querySelector('#player').getBoundingClientRect().height
         commentParent.style.height = videoPlayerHeight / 2 + 'px'
         // commentParent.style.height = commentParent.getBoundingClientRect().height * 1.5 + 'px'
         rightColumn.prepend(commentParent)
+
+        togglePinText(pinButton)
+        pinButton.addEventListener('click', (event) => {
+          if (originalSibling) {
+            originalParent.insertBefore(commentParent, originalSibling)
+          } else {
+            originalParent.appendChild(commentParent)
+          }
+        })
       })
 
       commentHeader.appendChild(pinButton)
     }
   })
+}
+
+const togglePinText = (node) => {
+  node.textContent == 'pin comment'
+    ? (node.textContent = 'unpin comment')
+    : (node.textContent = 'pin comment')
 }
 
 const waitForCommentsSectionLoad = setInterval(() => {
