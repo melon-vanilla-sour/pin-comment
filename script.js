@@ -10,20 +10,19 @@ function addPinButtonToComments() {
 
     if (!commentHeader.querySelector('.pin-button')) {
       const pinButton = document.createElement('a')
-
       togglePinText(pinButton)
       pinButton.className = 'pin-button'
+      let originalParent = null
+      // parent node includes elements like replies i.e. the full comment
+      let commentParent = comment.parentNode
 
-      pinButton.addEventListener('click', (event) => {
+      const onPinComment = (event) => {
         event.stopPropagation()
 
         const rightColumn = document.querySelector('#secondary')
-        // parent node includes elements like replies i.e. the full comment
-        commentParent = comment.parentNode
 
         // store info to restore position when unpinning
-        const originalParent = commentParent.parentNode
-        const originalSibling = commentParent.nextSibling
+        originalParent = commentParent.parentNode
 
         commentParent.style.overflowY = 'scroll'
         const videoPlayerHeight = document.querySelector('#player').getBoundingClientRect().height
@@ -32,19 +31,25 @@ function addPinButtonToComments() {
 
         togglePinText(pinButton)
 
-        pinButton.addEventListener('click', (event) => {
-          // insert back into original position
-          if (originalSibling) {
-            originalParent.insertBefore(commentParent, originalSibling)
-          } else {
-            originalParent.appendChild(commentParent)
-          }
+        pinButton.removeEventListener('click', onPinComment)
+        pinButton.addEventListener('click', onUnpinComment)
+      }
 
-          // remove max height
-          commentParent.style.maxHeight = null
-        })
-      })
+      const onUnpinComment = (event) => {
+        event.stopPropagation()
+        // insert back into original position
+        originalParent.prepend(commentParent)
 
+        // remove max height
+        commentParent.style.maxHeight = null
+
+        togglePinText(pinButton)
+
+        pinButton.removeEventListener('click', onUnpinComment)
+        pinButton.addEventListener('click', onPinComment)
+      }
+
+      pinButton.addEventListener('click', onPinComment)
       commentHeader.appendChild(pinButton)
     }
   })
