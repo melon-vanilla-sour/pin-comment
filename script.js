@@ -27,17 +27,21 @@ function addPinButtonToComments() {
 
         commentParent.style.overflowY = 'scroll'
         const videoPlayerHeight = document.querySelector('#player').getBoundingClientRect().height
-        commentParent.style.height = videoPlayerHeight / 2 + 'px'
-        // commentParent.style.height = commentParent.getBoundingClientRect().height * 1.5 + 'px'
+        commentParent.style.maxHeight = videoPlayerHeight / 2 + 'px'
         rightColumn.prepend(commentParent)
 
         togglePinText(pinButton)
+
         pinButton.addEventListener('click', (event) => {
+          // insert back into original position
           if (originalSibling) {
             originalParent.insertBefore(commentParent, originalSibling)
           } else {
             originalParent.appendChild(commentParent)
           }
+
+          // remove max height
+          commentParent.style.maxHeight = null
         })
       })
 
