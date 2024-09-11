@@ -1,7 +1,6 @@
 ## How to Use
-1. Clone the directory
+1. Download or clone the repository
 2. Load the unpacked extension into chrome with [these instructions](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
-
 
 ## Roadmap
 
