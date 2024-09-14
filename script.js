@@ -1,5 +1,40 @@
 console.log('pin-yt-comment extension loaded')
 
+window.addEventListener('yt-navigate-finish', function () {
+  // find all instances of pinned comments and remove them
+  const pinButtons = document.querySelectorAll('.pin-button')
+  pinButtons.forEach((pinButton) => {
+    pinButton.closest('ytd-comment-thread-renderer').remove()
+  })
+
+  const waitForCommentsSectionLoad = setInterval(() => {
+    // only wait for comments on video pages
+    if (!location.pathname.startsWith('/watch')) {
+      clearInterval(waitForCommentsSectionLoad)
+      return
+    }
+
+    // the entire comments section that loads new comments with scroll
+    const commentsSection = document.querySelector('#comments')
+
+    if (commentsSection) {
+      clearInterval(waitForCommentsSectionLoad)
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.addedNodes.length > 0) {
+            addPinButtonToComments()
+          }
+        })
+      })
+
+      observer.observe(commentsSection, {
+        childList: true,
+        subtree: true,
+      })
+    }
+  }, 1000)
+})
+
 function addPinButtonToComments() {
   // container for each comment element
   let commentsContainer = document.querySelectorAll('ytd-comment-thread-renderer')
@@ -65,27 +100,6 @@ const togglePinText = (node) => {
     ? (node.textContent = 'unpin comment')
     : (node.textContent = 'pin comment')
 }
-
-const waitForCommentsSectionLoad = setInterval(() => {
-  // the entire comments section that loads new comments with scroll
-  const commentsSection = document.querySelector('#comments')
-
-  if (commentsSection) {
-    clearInterval(waitForCommentsSectionLoad)
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.addedNodes.length > 0) {
-          addPinButtonToComments()
-        }
-      })
-    })
-
-    observer.observe(commentsSection, {
-      childList: true,
-      subtree: true,
-    })
-  }
-}, 1000)
 
 function isTheaterMode() {
   const playerContainer = document.querySelector('ytd-watch-flexy')
